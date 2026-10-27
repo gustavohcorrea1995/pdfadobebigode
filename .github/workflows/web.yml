@@ -1,0 +1,95 @@
+name: Web app
+
+# Builds the browser version (apps/pdfdobigode-web, wasm32 through trunk) and publishes the
+# finished static site to the `web` branch. Render serves that branch as a static site (no build
+# step on Render: publish directory `.`); GitHub Pages can serve it too (Settings ▸ Pages ▸ Deploy
+# from a branch ▸ `web`). Runs on every push to main and on demand (Actions ▸ Web app ▸ Run
+# workflow). Hosting notes: packaging/web/README.md.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One publish at a time; a newer push waits rather than cancelling one that is publishing.
+concurrency:
+  group: web
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build the web app
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Rust with the wasm32 target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache the Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: web
+
+      - name: Install trunk
+        uses: taiki-e/install-action@v2
+        with:
+          tool: trunk
+
+      - name: Build (trunk build --release)
+        working-directory: apps/pdfdobigode-web
+        # trunk fetches the wasm-bindgen CLI matching Cargo.lock and wasm-opt (data-wasm-opt="z").
+        run: trunk build --release
+
+      - name: Check the site
+        run: |
+          set -euo pipefail
+          test -f dist/web/index.html
+          ls -lh dist/web
+          # Relative URLs only, so the site works at any path (public_url = "./" in Trunk.toml).
+          if grep -Eq '(src|href)="/[^/]' dist/web/index.html; then
+            echo "index.html has root-absolute URLs" >&2
+            exit 1
+          fi
+          touch dist/web/.nojekyll
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: dist/web
+          include-hidden-files: true
+          retention-days: 7
+
+  publish:
+    name: Publish to the web branch
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: site
+
+      - name: Push the site to the `web` branch
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          cd site
+          git init -q -b web
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Web app built from ${SHA}"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${REPO}.git" web

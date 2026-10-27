@@ -54,9 +54,9 @@
 
 PDFDOBIGODE lives at **[github.com/gustavohcorrea1995/pdfadobebigode](https://github.com/gustavohcorrea1995/pdfadobebigode)**: source, issues and releases.
 
-**Use it in the browser:** [gustavohcorrea1995.github.io/pdfadobebigode](https://gustavohcorrea1995.github.io/pdfadobebigode/). The
-site is built and published by `.github/workflows/pages.yml` on every push to `main`; your files
-stay in your browser and are never uploaded.
+**Use it in the browser:** [pdfdobigode.onrender.com](https://pdfdobigode.onrender.com/). On every
+push to `main`, `.github/workflows/web.yml` builds the web app and publishes the static site to the
+`web` branch, which Render serves as is. Your files stay in your browser and are never uploaded.
 
 It starts from PdfCraft 0.14.0. Code, documents and tests keep their history and credits; the app
 has its own name, icon and identifiers (`com.pdfdobigode.pdfdobigode`, `pdfdobigode`,
