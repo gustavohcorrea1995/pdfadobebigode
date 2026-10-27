@@ -1,0 +1,77 @@
+name: Web app (GitHub Pages)
+
+# Builds the browser version (apps/pdfdobigode-web, wasm32 through trunk) and publishes it on
+# GitHub Pages: https://<owner>.github.io/<repo>/. Runs on every push to main and on demand
+# (Actions ▸ Web app ▸ Run workflow). One-time setup: Settings ▸ Pages ▸ Source: GitHub Actions.
+# Hosting notes: packaging/web/README.md.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push waits rather than cancelling one that is publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build the web app
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Rust with the wasm32 target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache the Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: web
+
+      - name: Install trunk
+        uses: taiki-e/install-action@v2
+        with:
+          tool: trunk
+
+      - name: Build (trunk build --release)
+        working-directory: apps/pdfdobigode-web
+        # trunk fetches the wasm-bindgen CLI matching Cargo.lock and wasm-opt (data-wasm-opt="z").
+        run: trunk build --release
+
+      - name: Check the site
+        run: |
+          set -euo pipefail
+          test -f dist/web/index.html
+          ls -lh dist/web
+          # Relative URLs only, so the site works under /<repo>/ (public_url = "./" in Trunk.toml).
+          if grep -Eq '(src|href)="/[^/]' dist/web/index.html; then
+            echo "index.html has root-absolute URLs" >&2
+            exit 1
+          fi
+          touch dist/web/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/web
+
+  deploy:
+    name: Publish on GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

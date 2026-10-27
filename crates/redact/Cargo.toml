@@ -1,0 +1,23 @@
+[package]
+name = "pdfdobigode-redact"
+description = "Redaction (architecture §11.2): marks, apply (glyphs, images, vectors, XObjects, annotations, fields), verification"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+pdfdobigode-cos = { workspace = true }
+pdfdobigode-content = { workspace = true }
+pdfdobigode-fonts = { workspace = true }
+pdfdobigode-model = { workspace = true }
+pdfdobigode-forms = { workspace = true }
+pdfdobigode-edit = { workspace = true }
+pdfdobigode-annot = { workspace = true }
+pdfdobigode-xfa = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+pdfdobigode-testkit = { workspace = true }

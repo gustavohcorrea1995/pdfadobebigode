@@ -1,0 +1,56 @@
+[package]
+name = "pdfdobigode-engine"
+description = "PDFDOBIGODE engine façade: session, documents, command/tool catalogue"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+craft-docpath = { workspace = true }
+pdfdobigode-measure = { workspace = true }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "tiff"] }
+pdfdobigode-render = { workspace = true }
+pdfdobigode-cos = { workspace = true }
+pdfdobigode-organize = { workspace = true }
+pdfdobigode-annot = { workspace = true }
+pdfdobigode-forms = { workspace = true }
+pdfdobigode-xfa = { workspace = true }
+pdfdobigode-edit = { workspace = true }
+pdfdobigode-audit = { workspace = true }
+pdfdobigode-redact = { workspace = true }
+pdfdobigode-print = { workspace = true }
+pdfdobigode-xfdf = { workspace = true }
+pdfdobigode-sign = { workspace = true }
+pdfdobigode-optimize = { workspace = true }
+pdfdobigode-a11y = { workspace = true }
+pdfdobigode-ocr = { workspace = true }
+pdfdobigode-js = { workspace = true }
+pdfdobigode-compare = { workspace = true }
+pdfdobigode-preflight = { workspace = true }
+pdfdobigode-export = { workspace = true }
+pdfdobigode-fonts = { workspace = true }
+pdfdobigode-create = { workspace = true }
+pdfdobigode-model = { workspace = true }
+pdfdobigode-geom = { workspace = true }
+thiserror = { workspace = true }
+png = "0.18"
+# Already in the graph (through image and pdfdobigode-create): image's TiffEncoder can't set the
+# resolution or the compression of an exported page.
+tiff = "0.11"
+# Already in the graph (url and idna through webbrowser, icu_properties through boa): they show
+# the host of a document's link the way the browser reads it (links::display_host).
+url = "2.5"
+idna = "1.1"
+icu_properties = "2.3"
+unicode-segmentation = "1.13"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+# Already in the graph through lopdf; used only for the local UTC offset ("today"). The workspace
+# entry is std-only; this target adds `clock` for `chrono::Local::now`.
+chrono = { workspace = true, features = ["clock"] }
+
+[dev-dependencies]
+pdfdobigode-testkit = { workspace = true }

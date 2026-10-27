@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=PDFDOBIGODE
+GenericName=PDF Editor
+Comment=Read, organize, combine, split and secure PDFs
+Exec=pdfdobigode %U
+TryExec=pdfdobigode
+Icon=com.pdfdobigode.pdfdobigode
+Terminal=false
+StartupNotify=true
+StartupWMClass=com.pdfdobigode.pdfdobigode
+Categories=Office;Viewer;
+Keywords=pdf;viewer;editor;annotate;sign;forms;merge;split;
+MimeType=application/pdf;

@@ -1,0 +1,12 @@
+PDFDOBIGODE app icon (pdfdobigode.svg, pdfdobigode-small.svg and every file derived from them in this
+directory: pdfdobigode-1024.png, pdfdobigode.icns, pdfdobigode.ico, hicolor/).
+
+Original artwork made for PDFDOBIGODE, written by hand as SVG (no third-party material). Licensed
+like the rest of PDFDOBIGODE, under either of
+
+  * Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+  * MIT license (https://opensource.org/licenses/MIT)
+
+at your option.
+
+Regenerate the derived files with packaging/icons.sh.

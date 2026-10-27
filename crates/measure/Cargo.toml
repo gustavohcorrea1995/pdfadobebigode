@@ -1,0 +1,20 @@
+[package]
+name = "pdfdobigode-measure"
+description = "Calibrated 2D PDF measurements, viewports and snapping"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+pdfdobigode-cos = { workspace = true }
+pdfdobigode-model = { workspace = true }
+pdfdobigode-content = { workspace = true }
+pdfdobigode-annot = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+pdfdobigode-testkit = { workspace = true }

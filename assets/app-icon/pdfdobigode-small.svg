@@ -1,0 +1,39 @@
+<!-- PDFDOBIGODE app icon: a handlebar moustache across a sheet of paper on the app green.
+     Contributor-original artwork, MIT OR Apache-2.0 (see LICENSE.txt). No fonts or external images. -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="tile"><rect width="512" height="512" rx="112"/></clipPath>
+    <path id="half" d="M256 300
+      C 270 270, 306 252, 344 262
+      C 374 270, 392 300, 418 306
+      C 440 311, 458 300, 462 282
+      C 466 266, 456 252, 442 254
+      C 452 244, 474 248, 480 268
+      C 488 298, 466 336, 428 344
+      C 384 354, 344 336, 314 326
+      C 290 318, 270 322, 256 340 Z"/>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="#12a58a"/>
+    <!-- sheet with a folded corner -->
+    <path d="M150 74 H316 L380 138 V420 a18 18 0 0 1-18 18 H150 a18 18 0 0 1-18-18 V92 a18 18 0 0 1 18-18 Z"
+          fill="#efe9dc" stroke="#0b0b0c" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M316 74 V122 a16 16 0 0 0 16 16 H380" fill="none" stroke="#0b0b0c" stroke-width="10" stroke-linejoin="round"/>
+    <!-- text lines -->
+    <g stroke="#0b0b0c" stroke-width="12" stroke-linecap="round" opacity="0.85">
+      <line x1="176" y1="128" x2="282" y2="128"/>
+      <line x1="176" y1="168" x2="336" y2="168"/>
+      <line x1="176" y1="208" x2="336" y2="208"/>
+      <line x1="176" y1="388" x2="336" y2="388"/>
+    </g>
+    <!-- moustache -->
+    <g fill="#efe9dc" stroke="#efe9dc" stroke-width="16" stroke-linejoin="round">
+      <use xlink:href="#half"/>
+      <use xlink:href="#half" transform="translate(512 0) scale(-1 1)"/>
+    </g>
+    <g fill="#0b0b0c" stroke="#0b0b0c" stroke-width="2" stroke-linejoin="round">
+      <use xlink:href="#half"/>
+      <use xlink:href="#half" transform="translate(512 0) scale(-1 1)"/>
+    </g>
+  </g>
+</svg>

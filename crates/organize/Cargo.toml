@@ -1,0 +1,18 @@
+[package]
+name = "pdfdobigode-organize"
+description = "Page and document-structure edits: rotate, delete, move, insert pages; document info"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+pdfdobigode-content = { workspace = true }
+pdfdobigode-cos = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+pdfdobigode-oracle = { workspace = true }
+hayro-syntax = { workspace = true }
