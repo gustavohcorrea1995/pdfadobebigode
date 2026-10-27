@@ -8,6 +8,8 @@ name: Web app
 on:
   push:
     branches: [main]
+  # Pull requests only build (a check before merging); publishing happens from main.
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -70,6 +72,7 @@ jobs:
   publish:
     name: Publish to the web branch
     needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
